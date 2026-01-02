@@ -28,3 +28,14 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 84334605044-22ufd1fj9o1pgddp25db4g0h4mtt3902.apps.googleusercontent.com
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile

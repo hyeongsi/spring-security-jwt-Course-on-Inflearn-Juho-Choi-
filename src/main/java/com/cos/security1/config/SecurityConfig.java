@@ -47,6 +47,10 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/");
         });
 
+        http.oauth2Login(oauth2LoginConfigurer -> {
+            oauth2LoginConfigurer.loginPage("/loginForm");
+        });
+
         return http.build();
     }
 }
