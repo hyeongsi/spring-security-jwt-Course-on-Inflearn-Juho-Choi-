@@ -1,5 +1,7 @@
 package com.cos.security1.config;
 
+import com.cos.security1.config.oauth.PrincipalOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -17,6 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 // securedEnabled = true: secured 어노테이션 활성화, 간단하게 권한확인할때 사용
 // prePostEnabled = true: preAuthorize, postAuthorize 어노테이션 활성화
 public class SecurityConfig {
+
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -48,7 +53,16 @@ public class SecurityConfig {
         });
 
         http.oauth2Login(oauth2LoginConfigurer -> {
-            oauth2LoginConfigurer.loginPage("/loginForm");
+            oauth2LoginConfigurer
+                .loginPage("/loginForm")
+                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(principalOauth2UserService));
+
+            // 구글 로그인이 완료된 뒤의 후처리가 필요함.
+            // 로그인 완료 후 코드 받지 않고, (엑세스 토큰 + 사용자 프로필 정보)를 받는다.
+            // 1. 코드 받기 (인증)
+            // 2. 엑세스 토큰 (권한)
+            // 3. 사용자 프로필 정보를 가져오고
+            // 4. 그 정보를 토대로 회원가입을 자동 진행 or 그 정보
         });
 
         return http.build();

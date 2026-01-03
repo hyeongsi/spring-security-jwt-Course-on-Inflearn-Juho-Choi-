@@ -19,6 +19,9 @@ public class User {
     private String username;
     private String email;
     private String role; // ROLE_USER, ROLE_ADMIN
+
+    private String provider; // google
+    private String providerId; // google sub id
     @CreationTimestamp
     private Timestamp createDate;
 }
