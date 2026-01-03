@@ -18,6 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     // 매개변수의 username 이 명칭과 실제 페이지에서 <input type="text" name="username">에서의 user="username"과 일치해야 한다!!
     // config의 .usernameParameter("...")으로 변경도 가능함.
+    // 함수 종료 시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User userEntity = userRepository.findByUsername(username);
